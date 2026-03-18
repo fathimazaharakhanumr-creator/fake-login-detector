@@ -1,12 +1,21 @@
-const { analyzeURL } = require("../utils/urlAnalyzer");
+const express = require("express");
+const router = express.Router();
 
-exports.checkURL = (req, res) => {
-    const { url } = req.body;
+// Simple fake URL scan logic
+router.post("/check-url", (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ success: false, message: "URL is required" });
 
-    const result = analyzeURL(url);
+  const suspiciousKeywords = ["login", "verify", "account"];
+  const reasons = [];
 
-    res.json({
-        success: true,
-        data: result
-    });
-};
+  if (!url.startsWith("https://")) reasons.push("Not using HTTPS");
+  suspiciousKeywords.forEach((kw) => {
+    if (url.toLowerCase().includes(kw)) reasons.push(`Contains: ${kw}`);
+  });
+
+  const suspicious = reasons.length > 0;
+  res.json({ success: true, data: { isValid: true, usesHTTPS: url.startsWith("https://"), suspicious, reasons } });
+});
+
+module.exports = router;

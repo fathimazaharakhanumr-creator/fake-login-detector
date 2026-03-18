@@ -1,8 +1,0 @@
-server/
-│── routes/        → API route definitions  
-│── controllers/   → Business logic  
-│── middleware/    → Authentication & security checks  
-│── models/        → Database schemas  
-│── utils/         → Helper functions  
-server/
-

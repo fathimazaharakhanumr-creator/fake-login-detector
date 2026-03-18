@@ -1,0 +1,47 @@
+import React, { useState } from "react";
+import axios from "axios";
+
+export default function UrlScanner() {
+  const [url, setUrl] = useState("");
+  const [result, setResult] = useState(null);
+
+  const handleScan = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/security/check-url", {
+        url,
+      });
+      setResult(res.data.data);
+    } catch (err) {
+      console.error(err);
+      setResult({ suspicious: true, reasons: ["Error scanning URL"] });
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Fake Login Page Detector</h2>
+      <input
+        type="text"
+        placeholder="Enter URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        style={{ width: "300px", marginRight: "10px" }}
+      />
+      <button onClick={handleScan}>Scan URL</button>
+
+      {result && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Scan Result:</h3>
+          <p>Suspicious: {result.suspicious ? "⚠️ Yes" : "✅ No"}</p>
+          {result.reasons.length > 0 && (
+            <ul>
+              {result.reasons.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
