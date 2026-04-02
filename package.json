@@ -20,5 +20,13 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fathimazaharakhanumr-creator/fake-login-detector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fathimazaharakhanumr-creator/fake-login-detector/issues"
+  },
+  "homepage": "https://github.com/fathimazaharakhanumr-creator/fake-login-detector#readme"
 }

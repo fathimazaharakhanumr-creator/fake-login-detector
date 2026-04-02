@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleLogin = async () => {
+    const res = await fetch("http://localhost:5001/check-login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+    setMessage(data.message);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Fake Login Detector</h1>
+
+      <input
+        type="email"
+        placeholder="Enter Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ padding: "10px", width: "250px" }}
+      />
+
+      <br /><br />
+
+      <button onClick={handleLogin} style={{ padding: "10px 20px" }}>
+        Login
+      </button>
+
+      <h2>{message}</h2>
     </div>
   );
 }
